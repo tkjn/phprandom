@@ -1,0 +1,3 @@
+composer.phar export-ignore
+phpunit.xml export-ignore
+tests export-ignore
