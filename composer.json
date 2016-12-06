@@ -7,14 +7,7 @@
             "email": "tkjn@tkjngine.com"
         }
     ],
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/tkjn/phptestproviders"
-        }
-    ],
     "require": {
-        "tkjn/phptestproviders": "0.1.*"
     },
     "require-dev": {
         "phpunit/phpunit": "*"
