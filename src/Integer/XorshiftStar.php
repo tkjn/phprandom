@@ -5,10 +5,10 @@ class XorshiftStar implements SeededRandom
 {
     private $seed;
 
-    public __construct(int $seed = null)
+    public function __construct(int $seed = null)
     {
         // TODO: Default based on current time or something
-        $this->seed = $seed ?? 123;
+        $this->seed($seed ?? 123);
     }
 
     public function rand(int $min, int $max) : int
