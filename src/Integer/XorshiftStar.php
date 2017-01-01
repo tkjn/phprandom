@@ -7,8 +7,7 @@ class XorshiftStar implements SeededRandom
 
     public function __construct(int $seed = null)
     {
-        // TODO: Default based on current time or something
-        $this->seed($seed ?? 123);
+        $this->seed($seed ?? random_int(0, PHP_INT_MAX));
     }
 
     public function rand(int $min, int $max) : int
