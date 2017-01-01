@@ -10,7 +10,7 @@ class XorshiftStar implements SeededRandom
     public function __construct(int $seed = null)
     {
         $this->maxSeed = max((int)0xFFFFFFFF, (int)0x7FFFFFFF);
-        $this->seed($seed ?? random_int(0, $this->maxSeed));
+        $this->seed($seed ?? $this->generateSeed());
     }
 
     public function rand(int $min, int $max) : int
@@ -43,19 +43,39 @@ class XorshiftStar implements SeededRandom
         $this->seed ^= $this->seed >> 12;
         $this->seed ^= $this->seed << 25;
         $this->seed ^= $this->seed >> 27;
-        return $min + bcmod(bcmul($this->seed, '2685821657736338717'), $max - $min);
+        return $min + bcmod(
+            bcmul(
+                bccomp($this->seed, '0'),
+                bcmul($this->seed, '2685821657736338717')
+            ),
+            $max - $min
+        );
     }
 
     public function seed(int $seed) : void
     {
+        if (0 > $seed)
+        {
+            throw new \InvalidArgumentException(sprintf(
+                'Seed %d cannot be less than 0',
+                $seed
+            ));
+        }
+
         if ($seed > $this->maxSeed)
         {
-            throw new \LogicException(sprintf(
+            throw new \InvalidArgumentException(sprintf(
                 'Seed %d cannot exceed %d',
                 $seed,
                 $this->maxSeed
             ));
         }
+
         $this->seed = $seed;
+    }
+
+    private function generateSeed() : int
+    {
+        return random_int(0, $this->maxSeed);
     }
 }
