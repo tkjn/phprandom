@@ -4,10 +4,13 @@ namespace Tkjn\Random\Integer;
 class XorshiftStar implements SeededRandom
 {
     private $seed;
+    private $maxSeed;
 
+    // TODO: seed could be negative, but should be unsigned
     public function __construct(int $seed = null)
     {
-        $this->seed($seed ?? random_int(0, PHP_INT_MAX));
+        $this->maxSeed = max((int)0xFFFFFFFF, (int)0x7FFFFFFF);
+        $this->seed($seed ?? random_int(0, $this->maxSeed));
     }
 
     public function rand(int $min, int $max) : int
@@ -20,6 +23,23 @@ class XorshiftStar implements SeededRandom
             ));
         }
 
+        // TODO: These can probably result in negative numbers, need to make sure the shifts and xor are consistent with unsigned ints
+        // Possible unsigned xor function here http://php.net/manual/en/language.operators.bitwise.php#58190
+        /*
+        function unsigned_xor32 ($a, $b)
+        {
+                $a1 = $a & 0x7FFF0000;
+                $a2 = $a & 0x0000FFFF;
+                $a3 = $a & 0x80000000;
+                $b1 = $b & 0x7FFF0000;
+                $b2 = $b & 0x0000FFFF;
+                $b3 = $b & 0x80000000;
+
+                $c = ($a3 != $b3) ? 0x80000000 : 0;
+
+                return (($a1 ^ $b1) |($a2 ^ $b2)) + $c;
+        }
+        */
         $this->seed ^= $this->seed >> 12;
         $this->seed ^= $this->seed << 25;
         $this->seed ^= $this->seed >> 27;
@@ -28,6 +48,14 @@ class XorshiftStar implements SeededRandom
 
     public function seed(int $seed) : void
     {
+        if ($seed > $this->maxSeed)
+        {
+            throw new \LogicException(sprintf(
+                'Seed %d cannot exceed %d',
+                $seed,
+                $this->maxSeed
+            ));
+        }
         $this->seed = $seed;
     }
 }
