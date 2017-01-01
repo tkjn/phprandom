@@ -22,6 +22,19 @@ class XorshiftStarTest extends TestCase
         $this->xorshiftStar->rand($min, $max);
     }
 
+
+    /**
+     * @dataProvider seedProvider
+     */
+    public function testTheSameSeedProducesTheSameResults(int $seed) : void
+    {
+        $rand1 = new XorshiftStar($seed);
+        $rand2 = new XorshiftStar($seed);
+
+        $this->assertSame($rand1->rand(10, 100), $rand2->rand(10, 100));
+        $this->assertSame($rand1->rand(0, 12737123), $rand2->rand(0, 12737123));
+    }
+
     public function maxLessThanMinProvider() : array
     {
         return [
@@ -30,9 +43,18 @@ class XorshiftStarTest extends TestCase
             [0, PHP_INT_MAX],
             [~PHP_INT_MAX, PHP_INT_MAX],
             [~PHP_INT_MAX, 0],
-            [-10000,-9999],
+            [-10000, -9999],
             [-1, 0],
-            [-12811,90001],
+            [-12811, 90001],
+        ];
+    }
+
+    public function seedProvider() : array
+    {
+        return [
+            [0],
+            [123123],
+            [max((int)0xFFFFFFFF, (int)0x7FFFFFFF)],
         ];
     }
 }
