@@ -40,6 +40,7 @@ class XorshiftStar implements SeededRandom
 
         $this->seed ^= $this->seed >> 12;
         $this->seed ^= $this->seed << 25;
+        $this->seed &= 0x7FFFFFFFFFFFFFFF;
         $this->seed ^= $this->seed >> 27;
         return $min + bcmod(
             bcmul(
