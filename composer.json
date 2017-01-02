@@ -17,5 +17,10 @@
         "psr-4": {
             "Tkjn\\Random\\": "src/"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "TkjnTest\\Random\\": "tests/"
+        }
     }
 }
