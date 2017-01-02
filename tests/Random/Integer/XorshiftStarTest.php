@@ -36,7 +36,7 @@ class XorshiftStarTest extends TestCase
     }
 
     /**
-     * @dataProvider lessThanZeroProvider
+     * @dataProvider lessThanOrEqualToZeroProvider
      */
     public function testThrowsExceptionWhenSeedLessThanZero(int $seed) : void
     {
@@ -61,15 +61,16 @@ class XorshiftStarTest extends TestCase
     public function seedProvider() : array
     {
         return [
-            [0],
+            [1],
             [123123],
             [PHP_INT_MAX],
         ];
     }
 
-    public function lessThanZeroProvider() : array
+    public function lessThanOrEqualToZeroProvider() : array
     {
         return [
+            [0],
             [-1],
             [~PHP_INT_MAX],
         ];

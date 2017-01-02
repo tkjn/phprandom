@@ -29,10 +29,10 @@ class XorshiftStar implements SeededRandom
 
     public function seed(int $seed) : void
     {
-        if (0 > $seed)
+        if (1 > $seed)
         {
             throw new \InvalidArgumentException(sprintf(
-                'Seed %d cannot be less than 0',
+                'Seed %d must be greater than 0',
                 $seed
             ));
         }
@@ -42,6 +42,6 @@ class XorshiftStar implements SeededRandom
 
     private function generateSeed() : int
     {
-        return random_int(0, PHP_INT_MAX);
+        return random_int(1, PHP_INT_MAX);
     }
 }
