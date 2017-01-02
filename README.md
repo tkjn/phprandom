@@ -24,21 +24,23 @@ $random1 = new \Tkjn\Random\Integer\XorshiftStar(123);
 $random2 = new \Tkjn\Random\Integer\XorshiftStar(123);
 $random3 = new \Tkjn\Random\Integer\XorshiftStar(85874);
 
-var_dump($random1->rand(10, 100000));
-var_dump($random2->rand(10, 100000));
-var_dump($random3->rand(10, 100000));
+var_dump($random1->rand(10, 90));
+var_dump($random2->rand(10, 90));
+var_dump($random3->rand(10, 90));
 
-var_dump($random1->rand(0, 20));
-var_dump($random2->rand(0, 20));
-var_dump($random3->rand(0, 20));
+var_dump($random1->rand(10, 90));
+var_dump($random2->rand(10, 90));
+var_dump($random3->rand(10, 90));
 ```
 
 Results in
 ```
-int(2969)
-int(2969)
-int(57533)
-int(14)
-int(14)
-int(5)
+int(59)
+int(59)
+int(13)
+
+int(84)
+int(84)
+int(15)
+
 ```
