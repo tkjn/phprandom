@@ -4,12 +4,9 @@ namespace Tkjn\Random\Integer;
 class XorshiftStar implements SeededRandom
 {
     private $seed;
-    private $maxSeed;
 
-    // TODO: seed could be negative, but should be unsigned
     public function __construct(int $seed = null)
     {
-        $this->maxSeed = max((int)0xFFFFFFFF, (int)0x7FFFFFFF);
         $this->seed($seed ?? $this->generateSeed());
     }
 
@@ -40,6 +37,7 @@ class XorshiftStar implements SeededRandom
                 return (($a1 ^ $b1) |($a2 ^ $b2)) + $c;
         }
         */
+
         $this->seed ^= $this->seed >> 12;
         $this->seed ^= $this->seed << 25;
         $this->seed ^= $this->seed >> 27;
@@ -62,20 +60,11 @@ class XorshiftStar implements SeededRandom
             ));
         }
 
-        if ($seed > $this->maxSeed)
-        {
-            throw new \InvalidArgumentException(sprintf(
-                'Seed %d cannot exceed %d',
-                $seed,
-                $this->maxSeed
-            ));
-        }
-
         $this->seed = $seed;
     }
 
     private function generateSeed() : int
     {
-        return random_int(0, $this->maxSeed);
+        return random_int(0, PHP_INT_MAX);
     }
 }

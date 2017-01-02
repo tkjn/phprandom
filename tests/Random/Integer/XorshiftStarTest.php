@@ -44,15 +44,6 @@ class XorshiftStarTest extends TestCase
         $this->xorshiftStar->seed($seed);
     }
 
-    /**
-     * @dataProvider greaterThan32BitProvider
-     */
-    public function testThrowsExceptionWhenSeedGreaterThan32Bit(int $seed) : void
-    {
-        $this->expectException('InvalidArgumentException');
-        $this->xorshiftStar->seed($seed);
-    }
-
     public function maxLessThanMinProvider() : array
     {
         return [
@@ -72,7 +63,7 @@ class XorshiftStarTest extends TestCase
         return [
             [0],
             [123123],
-            [max((int)0xFFFFFFFF, (int)0x7FFFFFFF)],
+            [PHP_INT_MAX],
         ];
     }
 
@@ -81,14 +72,6 @@ class XorshiftStarTest extends TestCase
         return [
             [-1],
             [~PHP_INT_MAX],
-        ];
-    }
-
-    public function greaterThan32BitProvider() : array
-    {
-        return [
-            ['4294967296'],
-            [max((int)0xFFFFFFFF, (int)0x7FFFFFFF) + 1],
         ];
     }
 }
