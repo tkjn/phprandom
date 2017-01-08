@@ -1,41 +1,46 @@
 # PHP Random
 
-The purpose of this library is to provide random data generation that is easy to mock when unit testing.
+The purposes of this library are:
+  - Provide a self-contained seeded number generator object, which doesn't rely on global state for the seed
+  - Define interfaces for random data generation that can be type-hinted and are easy to mock when unit testing.
 
 ## Installation
 
-Require in composer.json
-```json
-"require": {
-    "tkjn/phprandom": "*"
-}
-```
+Require `tkjn/phprandom` in composer.json
 
 ## Usage
 
 ```php
-$random = new MtRand();
+$random = new \Tkjn\Random\Integer\XorshiftStar();
 
 // Generate random value between 10 and 100 (inclusive)
 $randomNumber = $random->rand(10, 100);
 ```
 
-MtRand wraps PHP's mt_rand in the RandomIntegerInterface which can then be required as a dependency when random number generation is required.
+Multiple instances will maintain their own seed unlike the built-in php `rand()` and `mt_rand()` which are seeded globally
 
 ```php
-class MyAlgorithm
-{
-    private $random;
-    public function __construct(RandomIntegerInterface $random)
-    {
-        $this->random = $random;
-    }
+$random1 = new \Tkjn\Random\Integer\XorshiftStar(123);
+$random2 = new \Tkjn\Random\Integer\XorshiftStar(123);
+$random3 = new \Tkjn\Random\Integer\XorshiftStar(85874);
 
-    public function myMethod()
-    {
-        $value = $this->random->rand(12, 100);
-    }
-}
+var_dump($random1->rand(10, 90));
+var_dump($random2->rand(10, 90));
+var_dump($random3->rand(10, 90));
+
+var_dump($random1->rand(10, 90));
+var_dump($random2->rand(10, 90));
+var_dump($random3->rand(10, 90));
 ```
 
-RandomIntegerInterface can easily be mocked in unit tests to provide deterministic results.
+Results in
+```
+int(59)
+int(59)
+int(13)
+
+int(84)
+int(84)
+int(15)
+
+```
