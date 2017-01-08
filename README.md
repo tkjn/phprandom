@@ -2,7 +2,7 @@
 
 The purposes of this library are:
   - Provide a self-contained seeded number generator object, which doesn't rely on global state for the seed
-  - Define interfaces for random data generation that are easy to mock when unit testing.
+  - Define interfaces for random data generation that can be type-hinted and are easy to mock when unit testing.
 
 ## Installation
 
