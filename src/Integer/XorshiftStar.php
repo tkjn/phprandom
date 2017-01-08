@@ -29,8 +29,7 @@ class XorshiftStar implements SeededRandom
 
     public function seed(int $seed) : void
     {
-        if (1 > $seed)
-        {
+        if (1 > $seed) {
             throw new \InvalidArgumentException(sprintf(
                 'Seed %d must be greater than 0',
                 $seed
