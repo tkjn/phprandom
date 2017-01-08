@@ -4,3 +4,7 @@ php:
   - nightly
 install:
   - composer install
+  - composer require squizlabs/php_codesniffer
+script:
+  - vendor/bin/phpunit
+  - vendor/bin/phpcs --standard=PSR2
