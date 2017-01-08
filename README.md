@@ -1,4 +1,5 @@
 # PHP Random
+[![Build Status](https://travis-ci.org/tkjn/phprandom.svg?branch=master)](https://travis-ci.org/tkjn/phprandom)
 
 The purposes of this library are:
   - Provide a self-contained seeded number generator object, which doesn't rely on global state for the seed
