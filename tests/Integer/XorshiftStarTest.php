@@ -44,6 +44,14 @@ class XorshiftStarTest extends TestCase
         $this->xorshiftStar->seed($seed);
     }
 
+    /**
+     * @dataProvider intValueProvider
+     */
+    public function testSameMinAndMaxProducesSameValue(int $value) : void
+    {
+        $this->assertSame($value, $this->xorshiftStar->rand($value, $value));
+    }
+
     public function maxLessThanMinProvider() : array
     {
         return [
@@ -73,6 +81,18 @@ class XorshiftStarTest extends TestCase
             [0],
             [-1],
             [~PHP_INT_MAX],
+        ];
+    }
+
+    public function intValueProvider() : array
+    {
+        return [
+            [0],
+            [-1],
+            [~PHP_INT_MAX],
+            [1],
+            [123123],
+            [PHP_INT_MAX],
         ];
     }
 }

@@ -24,7 +24,16 @@ class XorshiftStar implements SeededRandom
         $this->seed ^= $this->seed << 25;
         $this->seed &= PHP_INT_MAX; // Mask to ensure sign-bit is 0
         $this->seed ^= $this->seed >> 27;
-        return $min + bcmod(bcmul($this->seed, '2685821657736338717'), $max - $min);
+        return bcadd(
+            $min,
+            bcmod(
+                bcmul($this->seed, '2685821657736338717'),
+                bcsub(
+                    bcadd('1', $max),
+                    $min
+                )
+            )
+        );
     }
 
     public function seed(int $seed) : void
